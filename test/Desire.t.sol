@@ -57,24 +57,13 @@ contract DesireTest is Test {
         assertFalse(success);
     }
 
-    // проверяем _validateSignature
-    function test_check_validate_signatures() public {
-//        string memory callData = bytes(0xb61d27f600000000000000000000000000000000000000000000000000000000000004570000000000000000000000000000000000000000000000000de0b6b3a764000000000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000000);
-//
-//        UserOperation storage userOp = UserOperation(
-//            desire.signers(0),
-//            desire.getNonce(),
-//            bytes(0),
-//            callData,
-//            100000,
-//            2000000,
-//            100000,
-//            94,
-//            70,
-//            bytes(0),
-//            bytes(0x00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000)
-//        );
-    }
+    // проверяем initialize once
+    function test_check_withdrawal_only_base_owner_false() public {
+        (bool success,) = address(desire).call(
+            abi.encodeWithSignature("withdrawDepositTo(address)", address(0))
+        );
 
+        assertFalse(success);
+    }
 
 }

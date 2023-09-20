@@ -31,14 +31,6 @@ contract Desire is
         _;
     }
 
-    modifier _requireFromFactory() {
-        require(
-            msg.sender == desireFactory,
-            "only desire factory can call"
-        );
-        _;
-    }
-
     constructor(IEntryPoint myEntryPoint, address _desireFactory) {
         _entryPoint = myEntryPoint;
         desireFactory = _desireFactory;
@@ -108,7 +100,7 @@ contract Desire is
 
     // @dev helpers
     function _authorizeUpgrade(
-        address
+        address newImplementation
     ) internal view override _requireFromEntryPointOrFactory {}
 
     function encodeSignatures(
@@ -124,15 +116,6 @@ contract Desire is
     function addDeposit() public payable {
         entryPoint().depositTo{value: msg.value}(address(this));
     }
-
-//    /**
-//     * withdraw value from the account's deposit
-//     * @param withdrawAddress target to send to
-//     * @param amount to withdraw
-//     */
-//    function withdrawDepositTo(address payable withdrawAddress, uint256 amount)  {
-//        entryPoint().withdrawTo(withdrawAddress, amount);
-//    }
 
     receive() external payable {}
 }
