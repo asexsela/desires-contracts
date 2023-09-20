@@ -64,3 +64,8 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+
+forge script script/DesireFactory.s.sol --rpc-url $LOCAL_RPC_URL --broadcast -vvv
+forge script script/DesireFactory.s.sol --fork-url $LOCAL_RPC_URL --broadcast --verify -vvv
+
+[//]: # (0x3010dBD5689095694478182650c2fbB6C0B50c4A)

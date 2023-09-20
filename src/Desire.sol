@@ -18,6 +18,8 @@ contract Desire is
     using ECDSA for bytes32;
     address[] public signers;
 
+    bool public locked;
+
     address public immutable desireFactory;
     IEntryPoint private immutable _entryPoint;
 
@@ -31,9 +33,18 @@ contract Desire is
         _;
     }
 
+    modifier onlyOwner() {
+        require(
+            msg.sender == signers[1],
+            "only owner can do this"
+        );
+        _;
+    }
+
     constructor(IEntryPoint myEntryPoint, address _desireFactory) {
         _entryPoint = myEntryPoint;
         desireFactory = _desireFactory;
+        locked = true;
         _disableInitializers();
     }
 
@@ -115,6 +126,11 @@ contract Desire is
 
     function addDeposit() public payable {
         entryPoint().depositTo{value: msg.value}(address(this));
+    }
+
+    function withdrawDepositTo(address payable withdrawAddress, uint256 amount) public onlyOwner {
+        // TODO: расчет и вывод комиссии
+        entryPoint().withdrawTo(withdrawAddress, amount);
     }
 
     receive() external payable {}
